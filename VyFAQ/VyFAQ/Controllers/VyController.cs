@@ -9,7 +9,7 @@ using VyFAQ.Repository;
 
 namespace VyFAQ.Controllers
 {
-    //brukt [action] i kallet fordi flere post-metoder inneholder samme parameter
+    //brukt [action] i kallet fordi flere post-metoder inneholder samme parameter//
     [Route("api/[controller]/[action]")]
     public class VyController : Controller
     {
