@@ -1,0 +1,421 @@
+<!--Dette replacer index-->
+  <head>
+    <meta charset=UTF-8/>
+
+  </head>
+<header>
+  <h1>Ofte stilte spørsmål</h1>
+</header>
+<body>
+  <div id="wrapper">
+    <div class="forside">
+      <h2>Hei, hva lurer du på?</h2>
+      <h3 id="spmtext" class="forsidebtn" (click)="hentBussSpm(); toggleQ(1)">Om buss</h3>
+      <div class="buss" *ngIf="visBussSpm && !laster" [@showQuestions]="isOpenQuestion1 ? ':enter' : ':leave'">
+        <p class="BussSpørsmålP" (click)="toggleA(1); userClickedAQuestion('Kan jeg reservere seter på buss?')">
+          {{EveryQuestion[0].question}}
+          <i class="far fa-thumbs-up" style="margin-left:211px;"></i> {{EveryQuestion[0].tommelOpp}}
+          <i class="far fa-thumbs-down"></i> {{EveryQuestion[0].tommelNed}}
+          <i class="fas fa-sort-down fa-lg" style="margin-left:2.9%;"></i>
+        </p>
+        <div class="BusAnswers" *ngIf="visSvar1 && hvilketSvar === 1" [@showAnswers]="isOpenAnswer1 ? ':enter' : ':leave'">
+          {{EveryQuestion[0].answer}}
+          <p class="userSurvey" *ngIf="showSurvey" [@showSurvey]>
+            Fant du svaret du lette etter?
+            <i id="tommelOpp" class="far fa-thumbs-up " (click)="sendRating(); hentRating('Buss')" [@tommelOppAnimation]="tommelOpp"></i>
+            <i id="tommelNed" class="far fa-thumbs-down" (click)="toggleUserQuestion()"></i>
+          </p>
+          <form [formGroup]="form" (ngSubmit)="sendQuestion()" class="userQuestion" *ngIf="showUserQuestion" [@userQuestion]>
+            <i id="kryss1" class="fas fa-times" (click)="closeUserQuestion()"></i>
+            Det var leit å høre. Hva lurte du på?
+            <input class="form-control" formControlName="id" type="hidden" />
+            <textarea class="form-control" type="text" formControlName="submittedQuestion" cols="50" rows="4"></textarea>
+            <p class="alert alert-warning" [hidden]="form.controls.submittedQuestion.valid || (form.controls.submittedQuestion.pristine && !submitted)">
+              Du er nødt til å skrive et spørsmål.
+            </p>
+            Og hvilken kategori ville du satt det i?
+            <select class="form-control" formControlName="category">
+              <option>Tog</option>
+              <option>Buss</option>
+              <option>Betaling</option>
+              <option>Annet</option>
+            </select>
+            <p class="alert alert-warning" [hidden]="form.controls.category.valid || (form.controls.category.pristine && !submitted)">
+              Du er nødt til å skrive en kategori.
+            </p>
+            <button type="submit" [disabled]="!form.valid">Send inn spørsmål</button>
+          </form>
+          <p class="userQuestion" *ngIf="showConfirmation" [@userQuestion]="closeConfirmation ? ':enter' : ':leave'">
+              Takk! Vi svarer det så fort vi kan, og da kommer svaret på denne nettsiden.
+              <button type="button" (click)="closeTheConfirmation(); hentRating('Buss')">Ok</button>
+        </div>
+        <p class="BussSpørsmålP" (click)="toggleA(2); userClickedAQuestion('Stopper bussen på rasteplasser?')">
+          {{EveryQuestion[1].question}}
+          <i class="far fa-thumbs-up" style="margin-left:212px;"></i> {{EveryQuestion[1].tommelOpp}}
+          <i class="far fa-thumbs-down"></i> {{EveryQuestion[1].tommelNed}}
+          <i class="fas fa-sort-down fa-lg" style="margin-left: 2.9%;"></i>
+        </p>
+        <div class="BusAnswers" *ngIf="visSvar2 && hvilketSvar === 2" [@showAnswers]="isOpenAnswer2 ? ':enter' : ':leave'">
+          {{EveryQuestion[1].answer}}
+          <p class="userSurvey" *ngIf="showSurvey" [@showSurvey]>
+            Fant du svaret du lette etter?
+            <i id="tommelOpp" class="far fa-thumbs-up" (click)="sendRating(); hentRating('Buss')" [@tommelOppAnimation]="tommelOpp"></i>
+            <i id="tommelNed" class="far fa-thumbs-down" (click)="toggleUserQuestion()"></i>
+          </p>
+          <form [formGroup]="form" (ngSubmit)="sendQuestion()" class="userQuestion" *ngIf="showUserQuestion" [@userQuestion]>
+            <i id="kryss1" class="fas fa-times" (click)="closeUserQuestion()"></i>
+            Det var leit å høre. Hva lurte du på?
+            <input class="form-control" formControlName="id" type="hidden" />
+            <textarea class="form-control" type="text" formControlName="submittedQuestion" cols="50" rows="4"></textarea>
+            <p class="alert alert-warning" [hidden]="form.controls.submittedQuestion.valid || (form.controls.submittedQuestion.pristine && !submitted)">
+              Du er nødt til å skrive et spørsmål.
+            </p>
+            Og hvilken kategori ville du satt det i?
+            <select class="form-control" formControlName="category">
+              <option [ngValue]="null" hidden>Velg...</option>
+              <option>Tog</option>
+              <option>Buss</option>
+              <option>Betaling</option>
+              <option>Annet</option>
+            </select>
+            <p class="alert alert-warning" [hidden]="form.controls.category.valid || (form.controls.category.pristine && !submitted)">
+              Du er nødt til å skrive en kategori.
+            </p>
+            <button type="submit" [disabled]="!form.valid">Send inn spørsmål</button>
+          </form>
+          <p class="userQuestion" *ngIf="showConfirmation" [@userQuestion]="closeConfirmation ? ':enter' : ':leave'">
+              Takk! Vi svarer det så fort vi kan, og da kommer svaret på denne nettsiden.
+              <button type="button" (click)="closeTheConfirmation(); hentRating('Buss')">Ok</button>
+        </div>
+        <p class="BussSpørsmålP" (click)="toggleA(3); userClickedAQuestion('Jeg har mistet billetten min. Ligger den et sted på siden?')">
+          {{EveryQuestion[2].question}}
+          <i class="far fa-thumbs-up" style="margin-left:45px;"></i> {{EveryQuestion[2].tommelOpp}}
+          <i class="far fa-thumbs-down"></i> {{EveryQuestion[2].tommelNed}}
+          <i class="fas fa-sort-down fa-lg" style="margin-left: 2.9%;"></i>
+        </p>
+        <div class=BusAnswers *ngIf="visSvar3 && hvilketSvar === 3" [@showAnswers]="isOpenAnswer3 ? ':enter' : ':leave'">
+          {{EveryQuestion[2].answer}}
+          <p class="userSurvey" *ngIf="showSurvey" [@showSurvey]>
+            Fant du svaret du lette etter?
+            <i id="tommelOpp" class="far fa-thumbs-up" (click)="sendRating(); hentRating('Buss')" [@tommelOppAnimation]="tommelOpp"></i>
+            <i id="tommelNed" class="far fa-thumbs-down" (click)="toggleUserQuestion()"></i>
+          </p>
+          <form [formGroup]="form" (ngSubmit)="sendQuestion()" class="userQuestion" *ngIf="showUserQuestion" [@userQuestion]>
+            <i id="kryss1" class="fas fa-times" (click)="closeUserQuestion()"></i>
+            Det var leit å høre. Hva lurte du på?
+            <input class="form-control" formControlName="id" type="hidden" />
+            <textarea class="form-control" type="text" formControlName="submittedQuestion" cols="50" rows="4"></textarea>
+            <p class="alert alert-warning" [hidden]="form.controls.submittedQuestion.valid || (form.controls.submittedQuestion.pristine && !submitted)">
+              Du er nødt til å skrive et spørsmål.
+            </p>
+            Og hvilken kategori ville du satt det i?
+            <select class="form-control" formControlName="category">
+              <option [ngValue]="null" hidden>Velg...</option>
+              <option>Tog</option>
+              <option>Buss</option>
+              <option>Betaling</option>
+              <option>Annet</option>
+            </select>
+            <p class="alert alert-warning" [hidden]="form.controls.category.valid || (form.controls.category.pristine && !submitted)">
+              Du er nødt til å skrive en kategori.
+            </p>
+            <button type="submit" [disabled]="!form.valid">Send inn spørsmål</button>
+          </form>
+          <p class="userQuestion" *ngIf="showConfirmation" [@userQuestion]="closeConfirmation ? ':enter' : ':leave'">
+              Takk! Vi svarer det så fort vi kan, og da kommer svaret på denne nettsiden.
+              <button type="button" (click)="closeTheConfirmation(); hentRating('Buss')">Ok</button>
+        </div>
+      </div>
+
+      <h3 class="forsidebtn" (click)="hentTogSpm(); toggleQ(2)">Om tog</h3>
+      <div class="tog" *ngIf="visTogSpm && !laster" [@showQuestions]="isOpenQuestion2 ? ':enter' : ':leave'">
+        <p class="TogSpørsmålP" (click)="toggleA(1); userClickedAQuestion('Kan jeg reservere seter på tog?')">
+          {{EveryQuestion[0].question}}
+          <i class="far fa-thumbs-up" style="margin-left:219px;"></i> {{EveryQuestion[0].tommelOpp}}
+          <i class="far fa-thumbs-down"></i> {{EveryQuestion[0].tommelNed}}
+          <i class="fas fa-sort-down fa-lg" style="margin-left: 2.9%;"></i>
+        </p>
+        <div class="TrainAnswers" *ngIf="visSvar1 && hvilketSvar === 1" [@showAnswers]="isOpenAnswer1 ? ':enter' : ':leave'">
+          {{EveryQuestion[0].answer}}
+          <p class="userSurvey" *ngIf="showSurvey" [@showSurvey]>
+            Fant du svaret du lette etter?
+            <i id="tommelOpp" class="far fa-thumbs-up" (click)="sendRating(); hentRating('Tog')" [@tommelOppAnimation]="tommelOpp"></i>
+            <i id="tommelNed" class="far fa-thumbs-down" (click)="toggleUserQuestion()"></i>
+          </p>
+          <form [formGroup]="form" (ngSubmit)="sendQuestion()" class="userQuestion" *ngIf="showUserQuestion" [@userQuestion]>
+            <i id="kryss1" class="fas fa-times" (click)="closeUserQuestion()"></i>
+            Det var leit å høre. Hva lurte du på?
+            <input class="form-control" formControlName="id" type="hidden" />
+            <textarea class="form-control" type="text" formControlName="submittedQuestion" cols="50" rows="4"></textarea>
+            <p class="alert alert-warning" [hidden]="form.controls.submittedQuestion.valid || (form.controls.submittedQuestion.pristine && !submitted)">
+              Du er nødt til å skrive et spørsmål.
+            </p>
+            Og hvilken kategori ville du satt det i?
+            <select class="form-control" formControlName="category">
+              <option [ngValue]="null" hidden>Velg...</option>
+              <option>Tog</option>
+              <option>Buss</option>
+              <option>Betaling</option>
+              <option>Annet</option>
+            </select>
+            <p class="alert alert-warning" [hidden]="form.controls.category.valid || (form.controls.category.pristine && !submitted)">
+              Du er nødt til å skrive en kategori.
+            </p>
+            <button type="submit" [disabled]="!form.valid">Send inn spørsmål</button>
+          </form>
+          <p class="userQuestion" *ngIf="showConfirmation" [@userQuestion]="closeConfirmation ? ':enter' : ':leave'">
+              Takk! Vi svarer det så fort vi kan, og da kommer svaret på denne nettsiden.
+              <button type="button" (click)="closeTheConfirmation(); hentRating('Tog')">Ok</button>
+        </div>
+        <p class="TogSpørsmålP" (click)="toggleA(2); userClickedAQuestion('Hvorfor er det alltid så fullt på toget?')">
+          {{EveryQuestion[1].question}}
+          <i class="far fa-thumbs-up" style="margin-left:189px;"></i> {{EveryQuestion[1].tommelOpp}}
+          <i class="far fa-thumbs-down"></i> {{EveryQuestion[1].tommelNed}}
+          <i class="fas fa-sort-down fa-lg" style="margin-left: 2.9%;"></i>
+        </p>
+        <div class=TrainAnswers *ngIf="visSvar2 && hvilketSvar === 2" [@showAnswers]="isOpenAnswer2 ? ':enter' : ':leave'">
+          {{EveryQuestion[1].answer}}
+          <p class="userSurvey" *ngIf="showSurvey" [@showSurvey]>
+            Fant du svaret du lette etter?
+            <i id="tommelOpp" class="far fa-thumbs-up" (click)="sendRating(); hentRating('Tog')" [@tommelOppAnimation]="tommelOpp"></i>
+            <i id="tommelNed" class="far fa-thumbs-down" (click)="toggleUserQuestion()"></i>
+          </p>
+          <form [formGroup]="form" (ngSubmit)="sendQuestion()" class="userQuestion" *ngIf="showUserQuestion" [@userQuestion]>
+            <i id="kryss1" class="fas fa-times" (click)="closeUserQuestion(); hentRating('Tog')"></i>
+            Det var leit å høre. Hva lurte du på?
+            <input class="form-control" formControlName="id" type="hidden" />
+            <textarea class="form-control" type="text" formControlName="submittedQuestion" cols="50" rows="4"></textarea>
+            <p class="alert alert-warning" [hidden]="form.controls.submittedQuestion.valid || (form.controls.submittedQuestion.pristine && !submitted)">
+              Du er nødt til å skrive et spørsmål.
+            </p>
+            Og hvilken kategori ville du satt det i?
+            <select class="form-control" formControlName="category">
+              <option [ngValue]="null" hidden>Velg...</option>
+              <option>Tog</option>
+              <option>Buss</option>
+              <option>Betaling</option>
+              <option>Annet</option>
+            </select>
+            <p class="alert alert-warning" [hidden]="form.controls.category.valid || (form.controls.category.pristine && !submitted)">
+              Du er nødt til å skrive en kategori.
+            </p>
+            <button type="submit" [disabled]="!form.valid">Send inn spørsmål</button>
+          </form>
+          <p class="userQuestion" *ngIf="showConfirmation" [@userQuestion]="closeConfirmation ? ':enter' : ':leave'">
+              Takk! Vi svarer det så fort vi kan, og da kommer svaret på denne nettsiden.
+              <button type="button" (click)="closeTheConfirmation(); hentRating('Tog')">Ok</button>
+        </div>
+        <p class="TogSpørsmålP" (click)="toggleA(3); userClickedAQuestion('Hvordan finner jeg rutetidene?')">
+          {{EveryQuestion[2].question}}
+          <i class="far fa-thumbs-up" style="margin-left:230px;"></i> {{EveryQuestion[2].tommelOpp}}
+          <i class="far fa-thumbs-down"></i> {{EveryQuestion[2].tommelNed}}
+          <i class="fas fa-sort-down fa-lg" style="margin-left: 2.9%;"></i>
+        </p>
+        <div class=TrainAnswers *ngIf="visSvar3 && hvilketSvar === 3" [@showAnswers]="isOpenAnswer3 ? ':enter' : ':leave'">
+          {{EveryQuestion[2].answer}}
+          <p class="userSurvey" *ngIf="showSurvey" [@showSurvey]>
+            Fant du svaret du lette etter?
+            <i id="tommelOpp" class="far fa-thumbs-up" (click)="sendRating(); hentRating('Tog')" [@tommelOppAnimation]="tommelOpp"></i>
+            <i id="tommelNed" class="far fa-thumbs-down" (click)="toggleUserQuestion()"></i>
+          </p>
+          <form [formGroup]="form" (ngSubmit)="sendQuestion()" class="userQuestion" *ngIf="showUserQuestion" [@userQuestion]>
+            <i id="kryss1" class="fas fa-times" (click)="closeUserQuestion()"></i>
+            Det var leit å høre. Hva lurte du på?
+            <input class="form-control" formControlName="id" type="hidden" />
+            <textarea class="form-control" type="text" formControlName="submittedQuestion" cols="50" rows="4"></textarea>
+            <p class="alert alert-warning" [hidden]="form.controls.submittedQuestion.valid || (form.controls.submittedQuestion.pristine && !submitted)">
+              Du er nødt til å skrive et spørsmål.
+            </p>
+            Og hvilken kategori ville du satt det i?
+            <select class="form-control" formControlName="category">
+              <option [ngValue]="null" hidden>Velg...</option>
+              <option>Tog</option>
+              <option>Buss</option>
+              <option>Betaling</option>
+              <option>Annet</option>
+            </select>
+            <p class="alert alert-warning" [hidden]="form.controls.category.valid || (form.controls.category.pristine && !submitted)">
+              Du er nødt til å skrive en kategori.
+            </p>
+            <button type="submit" [disabled]="!form.valid">Send inn spørsmål</button>
+          </form>
+          <p class="userQuestion" *ngIf="showConfirmation" [@userQuestion]="closeConfirmation ? ':enter' : ':leave'">
+              Takk! Vi svarer det så fort vi kan, og da kommer svaret på denne nettsiden.
+              <button type="button" (click)="closeTheConfirmation(); hentRating('Tog')">Ok</button>
+        </div>
+      </div>
+
+      <div class="helper">
+        <h3 class="forsidebtn" (click)="hentBetalingSpm(); toggleQ(3)">Om betaling</h3>
+        <div class="betaling" *ngIf="visBetalingSpm && !laster" [@showQuestions]="isOpenQuestion3 ? ':enter' : ':leave'">
+          <p class="BetalingSpørsmålP" (click)="toggleA(1); userClickedAQuestion('Kan jeg få erstatning for merkostnader ved forsinkelse?')">
+            {{EveryQuestion[0].question}}
+            <i class="far fa-thumbs-up" style="margin-left:54px;"></i> {{EveryQuestion[0].tommelOpp}}
+            <i class="far fa-thumbs-down"></i> {{EveryQuestion[0].tommelNed}}
+            <i class="fas fa-sort-down fa-lg" style="margin-left: 2.9%;"></i>
+          </p>
+          <div class="PaymentAnswers" *ngIf="visSvar1 && hvilketSvar === 1 " [@showAnswers]="isOpenAnswer1 ? ':enter' : ':leave'">
+            {{EveryQuestion[0].answer}}
+            <p class="userSurvey" *ngIf="showSurvey" [@showSurvey]>
+              Fant du svaret du lette etter?
+              <i id="tommelOpp" class="far fa-thumbs-up" (click)="sendRating(); hentRating('Betaling')" [@tommelOppAnimation]="tommelOpp"></i>
+              <i id="tommelNed" class="far fa-thumbs-down" (click)="toggleUserQuestion()"></i>
+            </p>
+            <form [formGroup]="form" (ngSubmit)="sendQuestion()" class="userQuestion" *ngIf="showUserQuestion" [@userQuestion]>
+              <i id="kryss1" class="fas fa-times" (click)="closeUserQuestion()"></i>
+              Det var leit å høre. Hva lurte du på?
+              <input class="form-control" formControlName="id" type="hidden" />
+              <textarea class="form-control" type="text" formControlName="submittedQuestion" cols="50" rows="4"></textarea>
+              <p class="alert alert-warning" [hidden]="form.controls.submittedQuestion.valid || (form.controls.submittedQuestion.pristine && !submitted)">
+                Du er nødt til å skrive et spørsmål.
+              </p>
+              Og hvilken kategori ville du satt det i?
+              <select class="form-control" formControlName="category">
+                <option [ngValue]="null" hidden>Velg...</option>
+                <option>Tog</option>
+                <option>Buss</option>
+                <option>Betaling</option>
+                <option>Annet</option>
+              </select>
+              <p class="alert alert-warning" [hidden]="form.controls.category.valid || (form.controls.category.pristine && !submitted)">
+                Du er nødt til å skrive en kategori.
+              </p>
+              <button type="submit" [disabled]="!form.valid">Send inn spørsmål</button>
+            </form>
+            <p class="userQuestion" *ngIf="showConfirmation" [@userQuestion]="closeConfirmation ? ':enter' : ':leave'">
+              Takk! Vi svarer det så fort vi kan, og da kommer svaret på denne nettsiden.
+              <button type="button" (click)="closeTheConfirmation(); hentRating('Betaling')">Ok</button>
+          </div>
+          <p class="BetalingSpørsmålP" (click)="toggleA(2); userClickedAQuestion('Jeg rakk ikke avgangen. Kan jeg få refundert billetten?')">
+            {{EveryQuestion[1].question}}
+            <i class="far fa-thumbs-up" style="margin-left:60px;"></i> {{EveryQuestion[1].tommelOpp}}
+            <i class="far fa-thumbs-down"></i> {{EveryQuestion[1].tommelNed}}
+            <i class="fas fa-sort-down fa-lg" style="margin-left: 2.9%;"></i>
+          </p>
+          <div class=PaymentAnswers *ngIf="visSvar2 && hvilketSvar === 2" [@showAnswers]="isOpenAnswer2 ? ':enter' : ':leave'">
+            {{EveryQuestion[1].answer}}
+            <p class="userSurvey" *ngIf="showSurvey" [@showSurvey]>
+              Fant du svaret du lette etter?
+              <i id="tommelOpp" class="far fa-thumbs-up" (click)="sendRating(); hentRating('Betaling')" [@tommelOppAnimation]="tommelOpp"></i>
+              <i id="tommelNed" class="far fa-thumbs-down" (click)="toggleUserQuestion()"></i>
+            </p>
+            <form [formGroup]="form" (ngSubmit)="sendQuestion()" class="userQuestion" *ngIf="showUserQuestion" [@userQuestion]>
+              <i id="kryss1" class="fas fa-times" (click)="closeUserQuestion()"></i>
+              Det var leit å høre. Hva lurte du på?
+              <input class="form-control" formControlName="id" type="hidden" />
+              <textarea class="form-control" type="text" formControlName="submittedQuestion" cols="50" rows="4"></textarea>
+              <p class="alert alert-warning" [hidden]="form.controls.submittedQuestion.valid || (form.controls.submittedQuestion.pristine && !submitted)">
+                Du er nødt til å skrive et spørsmål.
+              </p>
+              Og hvilken kategori ville du satt det i? 
+              <select class="form-control" formControlName="category">
+                <option [ngValue]="null" hidden>Velg...</option>
+                <option>Tog</option>
+                <option>Buss</option>
+                <option>Betaling</option>
+                <option>Annet</option>
+              </select>
+              <p class="alert alert-warning" [hidden]="form.controls.category.valid || (form.controls.category.pristine && !submitted)">
+                Du er nødt til å skrive en kategori.
+              </p>
+              <button type="submit" [disabled]="!form.valid">Send inn spørsmål</button>
+            </form>
+            <p class="userQuestion" *ngIf="showConfirmation" [@userQuestion]="closeConfirmation ? ':enter' : ':leave'">
+              Takk! Vi svarer det så fort vi kan, og da kommer svaret på denne nettsiden.
+              <button type="button" (click)="closeTheConfirmation(); hentRating('Betaling')">Ok</button>
+          </div>
+          <p class="BetalingSpørsmålP" (click)="toggleA(3); userClickedAQuestion('Hvordan endrer jeg betalingskortet tilknyttet Vy-profilen min?')">
+            {{EveryQuestion[2].question}}
+            <i style="margin-left:18px;" class="far fa-thumbs-up"></i> {{EveryQuestion[2].tommelOpp}}
+            <i class="far fa-thumbs-down"></i> {{EveryQuestion[2].tommelNed}}
+            <i class="fas fa-sort-down fa-lg"style="margin-left: 2.9%;"></i>
+          </p>
+          <div class=PaymentAnswers *ngIf="visSvar3 && hvilketSvar === 3" [@showAnswers]="isOpenAnswer3 ? ':enter' : ':leave'">
+            {{EveryQuestion[2].answer}}
+            <p class="userSurvey" *ngIf="showSurvey" [@showSurvey]>
+              Fant du svaret du lette etter?
+              <i id="tommelOpp" class="far fa-thumbs-up" (click)="sendRating(); hentRating('Betaling')" [@tommelOppAnimation]="tommelOpp"></i>
+              <i id="tommelNed" class="far fa-thumbs-down" (click)="toggleUserQuestion()"></i>
+            </p>
+            <form [formGroup]="form" (ngSubmit)="sendQuestion()" class="userQuestion" *ngIf="showUserQuestion" [@userQuestion]>
+              <i id="kryss1" class="fas fa-times" (click)="closeUserQuestion()"></i>
+              Det var leit å høre. Hva lurte du på?
+              <input class="form-control" formControlName="id" type="hidden" />
+              <textarea class="form-control" type="text" formControlName="submittedQuestion" cols="50" rows="4"></textarea>
+              <p class="alert alert-warning" [hidden]="form.controls.submittedQuestion.valid || (form.controls.submittedQuestion.pristine && !submitted)">
+                Du er nødt til å skrive et spørsmål.
+              </p>
+              Og hvilken kategori ville du satt det i?
+              <select class="form-control" formControlName="category">
+                <option [ngValue]="null" hidden>Velg...</option>
+                <option value="Tog">Tog</option>
+                <option value="Buss">Buss</option>
+                <option value="Betaling">Betaling</option>
+                <option value="Annet">Annet</option>
+              </select>
+              <p class="alert alert-warning" [hidden]="form.controls.category.valid || (form.controls.category.pristine && !submitted)">
+                Du er nødt til å skrive en kategori.
+              </p>
+              <button type="submit" [disabled]="!form.valid">Send inn spørsmål</button>
+            </form>
+            <p class="userQuestion" *ngIf="showConfirmation" [@userQuestion]="closeConfirmation ? ':enter' : ':leave'">
+              Takk! Vi svarer det så fort vi kan, og da kommer svaret på denne nettsiden.
+              <button type="button" (click)="closeTheConfirmation(); hentRating('Betaling')">Ok</button>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <img src=".\assets\images\vy.png" width="600" />
+  </div>
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+
+  <button (click)="toggleSubmits()">Trykk her for å se at innsendte spørsmål er lagret i databasen</button><br />
+  <div *ngIf="showSubmits" >
+    <h2>Innsendte negative ratings (innsendte spørsmål)</h2>
+    <table>
+      <thead>
+        <tr>
+          <td>Sist trykket spm</td>
+          <td>Innsendt spm</td>
+          <td>kategori</td>
+          <td>rating</td>
+        </tr>
+      </thead>
+      <tbody *ngFor="let question of EverySubmittedQuestion">
+        <tr>
+          <td>{{question.lastClickedQuestion}}</td>
+          <td>{{question.submittedQuestion}}</td>
+          <td>{{question.category}}</td>
+          <td>{{question.rating}}</td>
+        </tr>
+      </tbody>
+    </table>
+    <h2>Innsendte positive ratings (tommel opp)</h2>
+    <table>
+      <thead>
+        <tr>
+          <td>Sist trykket spm</td>
+          <td>Kategori</td>
+        </tr>
+      </thead>
+      <tbody *ngFor="let rating of EveryPositiveRating">
+        <tr>
+          <td>{{rating.lastClickedQuestion}}</td>
+          <td>{{rating.category}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</body>
+
